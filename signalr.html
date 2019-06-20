@@ -44,6 +44,7 @@
     <script>
       function show(obj)
       {
+        //előtűnés - láthatóság - eltűnés ideje ezredmásodpercben megadva
         obj.parent().fadeIn(800).delay(6000).fadeOut(800);
       }
     </script>
@@ -60,7 +61,8 @@
         var parsed = [];
         var msg = $("#log");
         
-        connection.on("127606-37", function (transaction) {
+        connection.on("127606-37", //A fogadó számla
+          function (transaction) {
             if (parsed.indexOf(transaction.ophash) > -1)
                 return;
             parsed.push(transaction.ophash);
