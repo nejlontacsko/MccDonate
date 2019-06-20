@@ -15,3 +15,9 @@ Ezt a rövidke HTML oldalt használva egy, a MicroCoin (MCC) hálózatát haszn�
 7. "OK" megnyomása után már a képen meg kell jelennie egy átlátszó rétegnek piros szegélyekkel. Ezt helyezdel nagyjából a képernyő közepére, a tetejéhez igazítva, szerintem ott jól néz ki.
 8. Hamarosan fel kell ugrania a képen egy `Csatlakoztatva!` vagy egy `Hiba lépett fel!` üzenetnek. Előbbi jelzi, hogy látja a Rider szervert és készen áll az alkalmazás az utalások fogadására. Utóbbi esetén nyisd meg hagyományos böngészőben (pl. Google Chrome-ban), majd az "F12" billentyű leütése utána, a Console lapon kell látnod a hibát. Ha nem érted vagy nem tudod megoldani akkor keress bátran! Ha itt a csatlakoztatva üzenet jelenik meg, akkor egyszerűen próbáld újra az OBS-ben, mert már ott is jónak kell már lennie!
 9. Használd egészséggel és fejezd ki hálád a támogatást küldő nézőidnek! :)
+
+### Youtube tutorial
+_hamarosan_
+
+### Konfiguráció
+_hamarosan_
