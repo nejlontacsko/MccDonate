@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>MicroCoin SignalR</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        #msgbox {
+          display: none;
+          height: 400px;
+          width: 600px;
+          overflow-y: auto;
+          max-width: 90%;
+          margin: 0 auto;
+          text-align: center;
+          color: black;
+          -webkit-text-fill-color: white;
+          -webkit-text-stroke-width: 2px;
+          -webkit-text-stroke-color: black;
+          font-family: Cooper Black;
+          font-size: 28px;
+        }
+        
+        #msgbox IMG {
+          width: 64px;
+          animation-name: rotate; 
+          animation-duration: 5s; 
+          animation-iteration-count: 1;
+          animation-timing-function: ease;
+        }
+        
+        @keyframes rotate {
+          from {transform: rotateY(0deg);}
+          to {transform: rotateY(360deg);}
+        }
+        
+        .colored {
+          color: orange;
+          -webkit-text-fill-color: orange;
+          -webkit-text-stroke-width: 2px;
+          -webkit-text-stroke-color: black;
+        }
+    </style>
+    <script>
+      function show(obj)
+      {
+        obj.parent().fadeIn(800).delay(6000).fadeOut(800);
+      }
+    </script>
+  </head>
+  <body>
+    <div id="msgbox">
+      <img src="mcc.png" width=32 />
+      <div id="log"></div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://rider.microcoin.hu/js/signalr/signalr.min.js"></script>
+    <script>
+        var connection = new signalR.HubConnectionBuilder().withUrl("https://rider.microcoin.hu/stream").build();
+        var parsed = [];
+        var msg = $("#log");
+        
+        connection.on("127606-37", function (transaction) {
+            if (parsed.indexOf(transaction.ophash) > -1)
+                return;
+            parsed.push(transaction.ophash);
+            msg.text("Támogattak ");
+            msg.append("<span class='colored'>");
+            $('.colored')[0].append(transaction.amount / 10000);
+            msg.append(" MicroCoin-nal!");
+            msg.append("<br />");
+            msg.append("<p class='colored'>");
+            $('.colored')[1].append(transaction.payload);
+            show(msg);
+        });        
+        
+        connection.start().then(() => {
+            msg.text("Csatlakoztatva!");
+            show(msg);
+        }).catch(e => {
+            msg.text("Hiba lépett fel!");
+            console.log(e.toString());
+            show(msg);
+        });
+    </script>
+  </body>
+</html>
