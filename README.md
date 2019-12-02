@@ -3,7 +3,8 @@ MicroCoin Donate Stream Overlay
 
 Ezt a rövidke HTML oldalt használva egy, a MicroCoin (MCC) hálózatát használó támogató rendszer kap egy streamer vagy YouTuber.
 
-## Hogyan használd?
+Hogyan használd?
+----------------
 
 1. Töltsd le az állományokat és mentsd le őket egy mappába egymás mellé!
 2. OBS Stúdióban a források közé vegyél fel egy "Böngésző" típusút!
@@ -16,8 +17,22 @@ Ezt a rövidke HTML oldalt használva egy, a MicroCoin (MCC) hálózatát haszn�
 8. Hamarosan fel kell ugrania a képen egy `Csatlakoztatva!` vagy egy `Hiba lépett fel!` üzenetnek. Előbbi jelzi, hogy látja a Rider szervert és készen áll az alkalmazás az utalások fogadására. Utóbbi esetén nyisd meg hagyományos böngészőben (pl. Google Chrome-ban), majd az "F12" billentyű leütése utána, a Console lapon kell látnod a hibát. Ha nem érted vagy nem tudod megoldani akkor keress bátran! Ha itt a csatlakoztatva üzenet jelenik meg, akkor egyszerűen próbáld újra az OBS-ben, mert már ott is jónak kell már lennie!
 9. Használd egészséggel és fejezd ki hálád a támogatást küldő nézőidnek! :)
 
-### Youtube tutorial
+Konfiguráció
+------------
+A fájl tetején, az 5. sortól kezdődően vannak a beállítási lehetőségek.
+Eddig ezek működnek:
+- `var account`: Utalást fogadó számla
+- `var showMiningReward`: Ez "true"/"false" értékeket fogad, eldüntheted vele, hogy megjelenjen-e értesítés a bányászás eredményéről
+
+Ezeket tervezem még megcsinálni:
+- `var width` és `var height`: A lefoglalt terület méretei pixelben megadva. A javasolt 600x400 nagyjából egy mondatos üzenetek megjelenítésére alkalmas.
+
+Youtube tutorial
+----------------
 _hamarosan_
 
-### Konfiguráció
-_hamarosan_
+Fájllista
+---------
+- `signalr.html`
+- `mcc.png`
+- `pickaxe.png`
