@@ -1,6 +1,18 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <script type="text/javascript">
+      //---Configuration---//
+      
+      //Utalást fogadó számla száma:
+      //(a most megadott az enyém, ha támogatnád ezt, vagy bármelyik crypto projektemet, ide utalj kérlek, köszönöm <3)
+      var account = "35006-91";
+      
+      //Ki szeretnéd írni a stream-edre azt is, ha egy bányász pool utalása érkezik a számládra?
+      //Ha igen, akkor legyen 'true', ha nem, akkor meg 'false'!
+      var showMiningReward = true;
+      
+    </script>
     <title>MicroCoin SignalR</title>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,15 +35,30 @@
         
         #msgbox IMG {
           width: 64px;
-          animation-name: rotate; 
-          animation-duration: 5s; 
-          animation-iteration-count: 1;
           animation-timing-function: ease;
         }
         
-        @keyframes rotate {
+        #msgbox IMG#mcc {
+          animation-name: flip;
+          animation-duration: 5s; 
+          animation-iteration-count: 1;
+        }
+        
+        @keyframes flip {
           from {transform: rotateY(0deg);}
           to {transform: rotateY(360deg);}
+        }
+        
+        #msgbox IMG#pickaxe {
+          animation-name: rotate;
+          animation-duration: 2.5s; 
+          animation-iteration-count: 2;
+        }
+        
+        @keyframes rotate {
+          0% {transform: rotateZ(0deg);}
+          50%  {transform: rotateZ(-100deg);}
+          100% {transform: rotateZ(0deg);}
         }
         
         .colored {
@@ -42,8 +69,19 @@
         }
     </style>
     <script>
-      function show(obj)
+      function show(obj, pick = false)
       {
+        if (pick)
+        {
+          $('#mcc').css("display", "none");
+          $('#pickaxe').css("display", "inline");
+        }
+        else
+        {
+          $('#pickaxe').css("display", "none");
+          $('#mcc').css("display", "inline");
+        }
+        
         //előtűnés - láthatóság - eltűnés ideje ezredmásodpercben megadva
         obj.parent().fadeIn(800).delay(6000).fadeOut(800);
       }
@@ -51,7 +89,8 @@
   </head>
   <body>
     <div id="msgbox">
-      <img src="mcc.png" width=32 />
+      <img id="mcc" src="mcc.png" />
+      <img id="pickaxe" src="pickaxe.png" />
       <div id="log"></div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -60,20 +99,41 @@
         var connection = new signalR.HubConnectionBuilder().withUrl("https://rider.microcoin.hu/stream").build();
         var parsed = [];
         var msg = $("#log");
+        var n;
         
-        connection.on("127606-37", //A fogadó számla
+        connection.on(account,
           function (transaction) {
             if (parsed.indexOf(transaction.ophash) > -1)
                 return;
             parsed.push(transaction.ophash);
-            msg.text("Támogattak ");
-            msg.append("<span class='colored'>");
-            $('.colored')[0].append(transaction.amount / 10000);
-            msg.append(" MicroCoin-nal!");
-            msg.append("<br />");
-            msg.append("<p class='colored'>");
-            $('.colored')[1].append(transaction.payload);
-            show(msg);
+            
+            n = transaction.payload.split(" ");
+            
+            if (n[0] == "pool" && n[1] == "share,")
+            {
+              if (showMiningReward)
+              {
+                msg.text("Érkezett ");
+                msg.append("<span class='colored' id='amount'>");
+                $('#amount')[0].append((transaction.amount / 10000).toFixed(4));
+                msg.append(" MicroCoin a pool-tól!<br />A ");
+                msg.append("<span class='colored' id='block'>");
+                $('#block')[0].append(n[n.length - 1]);
+                msg.append(". block kibányászásához hozzátett munkádért.")
+                show(msg, true);
+              }
+            }
+            else
+            {
+              msg.text("Támogattak ");
+              msg.append("<span class='colored'>");
+              $('.colored')[0].append(transaction.amount / 10000);
+              msg.append(" MicroCoin-nal!");
+              msg.append("<br />");
+              msg.append("<p class='colored'>");
+              $('.colored')[1].append(transaction.payload);
+              show(msg);
+            }
         });        
         
         connection.start().then(() => {
